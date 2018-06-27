@@ -5,11 +5,11 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.RequiredPlugins;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.google.gson.annotations.Since;
 import org.bukkit.event.Event;
 import us._donut_.skvault.events.ValueRequestEvent;
 
@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 @Name("Vault Request - Return Value")
 @Description("Returns a value to a request from vault")
 @RequiredPlugins("Vault")
-@Since(1.0)
+@Since("1.0")
 public class EffReturnValue extends Effect {
 
     static {

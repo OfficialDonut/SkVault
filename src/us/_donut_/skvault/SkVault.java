@@ -18,7 +18,7 @@ public class SkVault extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        getServer().getServicesManager().register(Economy.class, new CustomEconomy(new ConfigManager(this)), getServer().getPluginManager().getPlugin("Vault"), ServicePriority.Normal);
+        getServer().getServicesManager().register(Economy.class, new CustomEconomy(), getServer().getPluginManager().getPlugin("Vault"), ServicePriority.Normal);
         getLogger().info("Enabled!");
     }
 

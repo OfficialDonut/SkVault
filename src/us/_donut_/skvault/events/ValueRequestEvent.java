@@ -39,7 +39,7 @@ public class ValueRequestEvent extends VaultEvent {
     public String getStringValue() {
         verifyImplemented();
         try {
-            return (String) returnValue;
+            return ((String) returnValue).toString();
         } catch (ClassCastException | NullPointerException e) {
             return "";
         }

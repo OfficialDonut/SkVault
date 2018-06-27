@@ -11,13 +11,13 @@ import java.util.List;
 
 public class CustomEconomy extends AbstractEconomy {
 
-    private ConfigManager configManager;
-    private String linkVariable;
-
-    CustomEconomy(ConfigManager configManager) {
-        this.configManager = configManager;
-        linkVariable = configManager.getLinkVariable();
-    }
+    public static boolean automaticLinking = false;
+    public static String linkVariable;
+    public static String economyName = "";
+    public static String singularCurrencyName = "dollar";
+    public static String pluralCurrencyName = "dollars";
+    public static String currencyFormat = "$%number%";
+    public static int currencyDecimals = 2;
 
     private Object getLinkVariableValue(OfflinePlayer player) {
         String variableName = linkVariable.replace("%player%", player.getName()).replace("%player's uuid%", player.getUniqueId().toString()).replace("%uuid of player%", player.getUniqueId().toString());
@@ -40,7 +40,7 @@ public class CustomEconomy extends AbstractEconomy {
     //General Vault methods
     @Override
     public boolean isEnabled() {
-        if (configManager.isLinkingAutomatic()) {
+        if (automaticLinking) {
             return true;
         } else {
             EnabledRequestEvent event = new EnabledRequestEvent();
@@ -51,8 +51,8 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public String getName() {
-        if (configManager.isLinkingAutomatic()) {
-            return configManager.getEconomyName();
+        if (automaticLinking) {
+            return economyName;
         } else {
             EconomyNameRequestEvent event = new EconomyNameRequestEvent();
             Bukkit.getServer().getPluginManager().callEvent(event);
@@ -62,8 +62,8 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public int fractionalDigits() {
-        if (configManager.isLinkingAutomatic()) {
-            return configManager.getCurrencyDecimals();
+        if (automaticLinking) {
+            return currencyDecimals;
         } else {
             CurrencyDecimalsRequestEvent event = new CurrencyDecimalsRequestEvent();
             Bukkit.getServer().getPluginManager().callEvent(event);
@@ -73,23 +73,41 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public String format(double amount) {
-        return configManager.getCurrencyFormat().replace("%number%", String.valueOf(amount));
+        if (automaticLinking) {
+            return currencyFormat.replace("%number%", String.valueOf(amount));
+        } else {
+            FormatCurrencyRequest event = new FormatCurrencyRequest(amount);
+            Bukkit.getServer().getPluginManager().callEvent(event);
+            return event.getStringValue();
+        }
     }
 
     @Override
     public String currencyNameSingular() {
-        return configManager.getCurrencyNameSingular();
+        if (automaticLinking) {
+            return singularCurrencyName;
+        } else {
+            SingularCurrencyNameRequest event = new SingularCurrencyNameRequest();
+            Bukkit.getServer().getPluginManager().callEvent(event);
+            return event.getStringValue();
+        }
     }
 
     @Override
     public String currencyNamePlural() {
-        return configManager.getCurrencyNamePlural();
+        if (automaticLinking) {
+            return pluralCurrencyName;
+        } else {
+            PluralCurrencyNameRequest event = new PluralCurrencyNameRequest();
+            Bukkit.getServer().getPluginManager().callEvent(event);
+            return event.getStringValue();
+        }
     }
 
     //Vault player balance methods
     @Override
     public double getBalance(OfflinePlayer player) {
-        if (configManager.isLinkingAutomatic()) {
+        if (automaticLinking) {
             return getDoubleValue(getLinkVariableValue(player));
         } else {
             BalanceRequestEvent event = new BalanceRequestEvent(player);
@@ -100,7 +118,7 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        if (configManager.isLinkingAutomatic()) {
+        if (automaticLinking) {
             double newBalance = getDoubleValue(getLinkVariableValue(player)) + amount;
             setLinkVariableValue(player, newBalance);
             return new EconomyResponse(amount, newBalance, EconomyResponse.ResponseType.SUCCESS, "");
@@ -113,7 +131,7 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        if (configManager.isLinkingAutomatic()) {
+        if (automaticLinking) {
             double newBalance = getDoubleValue(getLinkVariableValue(player)) - amount;
             setLinkVariableValue(player, newBalance);
             return new EconomyResponse(amount, newBalance, EconomyResponse.ResponseType.SUCCESS, "");
@@ -126,7 +144,7 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
-        if (configManager.isLinkingAutomatic()) {
+        if (automaticLinking) {
             return getDoubleValue(getLinkVariableValue(player)) > amount;
         } else {
             CheckBalanceRequestEvent event = new CheckBalanceRequestEvent(player);

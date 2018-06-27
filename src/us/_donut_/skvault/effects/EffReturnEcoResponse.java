@@ -5,11 +5,11 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.RequiredPlugins;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.google.gson.annotations.Since;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.event.Event;
 import us._donut_.skvault.events.EcoResponseRequestEvent;
@@ -19,17 +19,17 @@ import javax.annotation.Nullable;
 @Name("Vault Request - Return Economy Response")
 @Description("Returns an economy response to a request from vault")
 @RequiredPlugins("Vault")
-@Since(1.0)
+@Since("1.0")
 public class EffReturnEcoResponse extends Effect {
+
+    static {
+        Skript.registerEffect(EffReturnEcoResponse.class, "return [a] [new] eco[nomy] response [with] [amount [modified]] %number%, [new] [bal[ance]] %number%, [[response] type] (0¦success|1¦failure|2¦not implemented), [and] [error [message] %string% [to [the] [vault] request]");
+    }
 
     private Expression<Number> amountModified;
     private Expression<Number> newBalance;
     private Expression<String> errorMessage;
     private EconomyResponse.ResponseType responseType;
-
-    static {
-        Skript.registerEffect(EffReturnEcoResponse.class, "return [a] [new] eco[nomy] response [with] [amount [modified]] %number%, [new] [bal[ance]] %number%, [[response] type] (0¦success|1¦failure|2¦not implemented), [and] [error [message] %string% [to [the] [vault] request]");
-    }
 
     @Override
     public boolean init(Expression<?>[] e, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
