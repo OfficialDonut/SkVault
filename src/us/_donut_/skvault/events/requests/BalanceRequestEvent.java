@@ -4,10 +4,10 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import org.bukkit.OfflinePlayer;
+import us._donut_.skvault.events.DoubleRequestEvent;
 import us._donut_.skvault.events.SkVaultEvent;
-import us._donut_.skvault.events.ValueRequestEvent;
 
-public class BalanceRequestEvent extends ValueRequestEvent {
+public class BalanceRequestEvent extends DoubleRequestEvent {
 
     static {
         Skript.registerEvent("Vault Request - Player Balance (Return: number)", SkVaultEvent.class, BalanceRequestEvent.class,

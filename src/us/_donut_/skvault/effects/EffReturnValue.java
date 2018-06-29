@@ -30,7 +30,7 @@ public class EffReturnValue extends Effect {
     @Override
     public boolean init(Expression<?>[] e, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         for (Class<? extends Event> event : ScriptLoader.getCurrentEvents()) {
-            if (ScriptLoader.isCurrentEvent(event) && event.getSuperclass().equals(ValueRequestEvent.class)) {
+            if (ScriptLoader.isCurrentEvent(event) && event.getSuperclass().getSuperclass().equals(ValueRequestEvent.class)) {
                 value = e[0];
                 return true;
             }

@@ -1,10 +1,10 @@
 package us._donut_.skvault.events.requests;
 
 import ch.njol.skript.Skript;
+import us._donut_.skvault.events.BooleanRequestEvent;
 import us._donut_.skvault.events.SkVaultEvent;
-import us._donut_.skvault.events.ValueRequestEvent;
 
-public class EnabledRequestEvent extends ValueRequestEvent {
+public class EnabledRequestEvent extends BooleanRequestEvent {
 
     static {
         Skript.registerEvent("Vault Request - Economy Enabled Status (Return: boolean)", SkVaultEvent.class, EnabledRequestEvent.class,

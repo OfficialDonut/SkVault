@@ -4,9 +4,9 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import us._donut_.skvault.events.SkVaultEvent;
-import us._donut_.skvault.events.ValueRequestEvent;
+import us._donut_.skvault.events.StringRequestEvent;
 
-public class FormatCurrencyRequest extends ValueRequestEvent {
+public class FormatCurrencyRequest extends StringRequestEvent {
 
     static {
         Skript.registerEvent("Vault Request - Format Number As Currency (Return: string)", SkVaultEvent.class, FormatCurrencyRequest.class,

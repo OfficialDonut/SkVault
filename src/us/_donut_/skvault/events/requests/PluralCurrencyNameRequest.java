@@ -2,9 +2,9 @@ package us._donut_.skvault.events.requests;
 
 import ch.njol.skript.Skript;
 import us._donut_.skvault.events.SkVaultEvent;
-import us._donut_.skvault.events.ValueRequestEvent;
+import us._donut_.skvault.events.StringRequestEvent;
 
-public class PluralCurrencyNameRequest extends ValueRequestEvent {
+public class PluralCurrencyNameRequest extends StringRequestEvent {
 
     static {
         Skript.registerEvent("Vault Request - Plural Currency Name (Return: string)", SkVaultEvent.class, PluralCurrencyNameRequest.class,

@@ -20,12 +20,22 @@ public class CustomEconomy extends AbstractEconomy {
     public static int currencyDecimals = 2;
 
     private Object getLinkVariableValue(OfflinePlayer player) {
-        String variableName = linkVariable.replace("%player%", player.getName()).replace("%player's uuid%", player.getUniqueId().toString()).replace("%uuid of player%", player.getUniqueId().toString());
+        String variableName = linkVariable
+                .replace("%player%", player.getName())
+                .replace("%the player%", player.getName())
+                .replace("%player's uuid%", player.getUniqueId().toString())
+                .replace("%uuid of player%", player.getUniqueId().toString())
+                .replace("the UUID of the player", player.getUniqueId().toString());
         return Variables.getVariable(variableName, null, false);
     }
 
     private void setLinkVariableValue(OfflinePlayer player, Object value) {
-        String variableName = linkVariable.replace("%player%", player.getName()).replace("%player's uuid%", player.getUniqueId().toString()).replace("%uuid of player%", player.getUniqueId().toString());
+        String variableName = linkVariable
+                .replace("%player%", player.getName())
+                .replace("%the player%", player.getName())
+                .replace("%player's uuid%", player.getUniqueId().toString())
+                .replace("%uuid of player%", player.getUniqueId().toString())
+                .replace("the UUID of the player", player.getUniqueId().toString());
         Variables.setVariable(variableName, value, null, false);
     }
 
@@ -40,117 +50,97 @@ public class CustomEconomy extends AbstractEconomy {
     //General Vault methods
     @Override
     public boolean isEnabled() {
-        if (automaticLinking) {
-            return true;
-        } else {
-            EnabledRequestEvent event = new EnabledRequestEvent();
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        EnabledRequestEvent event = new EnabledRequestEvent();
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getBooleanValue();
-        }
+        return true;
     }
 
     @Override
     public String getName() {
-        if (automaticLinking) {
-            return economyName;
-        } else {
-            EconomyNameRequestEvent event = new EconomyNameRequestEvent();
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        EconomyNameRequestEvent event = new EconomyNameRequestEvent();
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getStringValue();
-        }
+        return economyName;
     }
 
     @Override
     public int fractionalDigits() {
-        if (automaticLinking) {
-            return currencyDecimals;
-        } else {
-            CurrencyDecimalsRequestEvent event = new CurrencyDecimalsRequestEvent();
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        CurrencyDecimalsRequestEvent event = new CurrencyDecimalsRequestEvent();
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getIntValue();
-        }
+        return currencyDecimals;
     }
 
     @Override
     public String format(double amount) {
-        if (automaticLinking) {
-            return currencyFormat.replace("%number%", String.valueOf(amount));
-        } else {
-            FormatCurrencyRequest event = new FormatCurrencyRequest(amount);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        FormatCurrencyRequest event = new FormatCurrencyRequest(amount);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getStringValue();
-        }
+        return currencyFormat.replace("%number%", String.valueOf(amount));
     }
 
     @Override
     public String currencyNameSingular() {
-        if (automaticLinking) {
-            return singularCurrencyName;
-        } else {
-            SingularCurrencyNameRequest event = new SingularCurrencyNameRequest();
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        SingularCurrencyNameRequest event = new SingularCurrencyNameRequest();
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getStringValue();
-        }
+        return singularCurrencyName;
     }
 
     @Override
     public String currencyNamePlural() {
-        if (automaticLinking) {
-            return pluralCurrencyName;
-        } else {
-            PluralCurrencyNameRequest event = new PluralCurrencyNameRequest();
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        PluralCurrencyNameRequest event = new PluralCurrencyNameRequest();
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getStringValue();
-        }
+        return pluralCurrencyName;
     }
 
     //Vault player balance methods
     @Override
     public double getBalance(OfflinePlayer player) {
-        if (automaticLinking) {
-            return getDoubleValue(getLinkVariableValue(player));
-        } else {
-            BalanceRequestEvent event = new BalanceRequestEvent(player);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        BalanceRequestEvent event = new BalanceRequestEvent(player);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getDoubleValue();
-        }
+        return getDoubleValue(getLinkVariableValue(player));
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        if (automaticLinking) {
-            double newBalance = getDoubleValue(getLinkVariableValue(player)) + amount;
-            setLinkVariableValue(player, newBalance);
-            return new EconomyResponse(amount, newBalance, EconomyResponse.ResponseType.SUCCESS, "");
-        } else {
-            DepositRequestEvent event = new DepositRequestEvent(player, amount);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        DepositRequestEvent event = new DepositRequestEvent(player, amount);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getEconomyResponse();
-        }
+        double newBalance = getDoubleValue(getLinkVariableValue(player)) + amount;
+        setLinkVariableValue(player, newBalance);
+        return new EconomyResponse(amount, newBalance, EconomyResponse.ResponseType.SUCCESS, "");
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        if (automaticLinking) {
-            double newBalance = getDoubleValue(getLinkVariableValue(player)) - amount;
-            setLinkVariableValue(player, newBalance);
-            return new EconomyResponse(amount, newBalance, EconomyResponse.ResponseType.SUCCESS, "");
-        } else {
-            WithdrawRequestEvent event = new WithdrawRequestEvent(player, amount);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        WithdrawRequestEvent event = new WithdrawRequestEvent(player, amount);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getEconomyResponse();
-        }
+        double newBalance = getDoubleValue(getLinkVariableValue(player)) - amount;
+        setLinkVariableValue(player, newBalance);
+        return new EconomyResponse(amount, newBalance, EconomyResponse.ResponseType.SUCCESS, "");
     }
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
-        if (automaticLinking) {
-            return getDoubleValue(getLinkVariableValue(player)) > amount;
-        } else {
-            CheckBalanceRequestEvent event = new CheckBalanceRequestEvent(player);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+        CheckBalanceRequestEvent event = new CheckBalanceRequestEvent(player);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (!automaticLinking || event.isImplemented())
             return event.getBooleanValue();
-        }
+        return getDoubleValue(getLinkVariableValue(player)) > amount;
     }
 
     //Vault player balance methods that point to other methods

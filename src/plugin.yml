@@ -1,5 +1,5 @@
 name: SkVault
-version: 1.0.5
+version: 1.1
 author: _Donut_
 main: us._donut_.skvault.SkVault
 depend: [Skript, Vault]

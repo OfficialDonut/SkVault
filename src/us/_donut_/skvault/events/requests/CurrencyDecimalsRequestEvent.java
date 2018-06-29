@@ -1,10 +1,10 @@
 package us._donut_.skvault.events.requests;
 
 import ch.njol.skript.Skript;
+import us._donut_.skvault.events.IntRequestEvent;
 import us._donut_.skvault.events.SkVaultEvent;
-import us._donut_.skvault.events.ValueRequestEvent;
 
-public class CurrencyDecimalsRequestEvent extends ValueRequestEvent {
+public class CurrencyDecimalsRequestEvent extends IntRequestEvent {
 
     static {
         Skript.registerEvent("Vault Request - Currency Decimal Places (Return: number)", SkVaultEvent.class, CurrencyDecimalsRequestEvent.class,

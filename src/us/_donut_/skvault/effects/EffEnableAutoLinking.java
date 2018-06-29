@@ -15,29 +15,29 @@ import javax.annotation.Nullable;
 @Description("Enables automatic Vault linking")
 @RequiredPlugins("Vault")
 @Since("1.0.5")
-@Examples("enable automatic vault linking with balance variable \"{balances::%%player%%}\"")
+@Examples("enable automatic vault linking with balance variable {balances::%player%}")
 public class EffEnableAutoLinking extends Effect {
 
     static {
-        Skript.registerEffect(EffEnableAutoLinking.class, "enable auto[matic] [vault] (linking|hooking) (with|using) [bal[ance]] var[iable] %string%");
+        Skript.registerEffect(EffEnableAutoLinking.class, "enable auto[matic] [vault] (linking|hooking) (with|using) [bal[ance]] [var[iable]] %objects%");
     }
 
-    private Expression<String> balanceVariable;
+    private String balanceVariable;
 
     @Override
     public boolean init(Expression<?>[] e, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        balanceVariable = (Expression<String>) e[0];
+        balanceVariable = e[0].toString();
         return true;
     }
 
     @Override
     public String toString(@Nullable Event e, boolean debug) {
-        return "enable automatic vault linking with balance variable " + balanceVariable.toString(e, debug);
+        return "enable automatic vault linking with balance variable " + balanceVariable;
     }
 
     @Override
     protected void execute(Event e) {
         CustomEconomy.automaticLinking = true;
-        CustomEconomy.linkVariable = balanceVariable.getSingle(e).replace("{", "").replace("}", "");
+        CustomEconomy.linkVariable = balanceVariable.replace("'{", "").replace("}'", "");
     }
 }

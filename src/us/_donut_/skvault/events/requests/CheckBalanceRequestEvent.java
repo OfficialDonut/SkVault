@@ -4,10 +4,10 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import org.bukkit.OfflinePlayer;
+import us._donut_.skvault.events.BooleanRequestEvent;
 import us._donut_.skvault.events.SkVaultEvent;
-import us._donut_.skvault.events.ValueRequestEvent;
 
-public class CheckBalanceRequestEvent extends ValueRequestEvent {
+public class CheckBalanceRequestEvent extends BooleanRequestEvent {
 
     static {
         Skript.registerEvent("Vault Request - Check Balance (Return: boolean)", SkVaultEvent.class, CheckBalanceRequestEvent.class,
