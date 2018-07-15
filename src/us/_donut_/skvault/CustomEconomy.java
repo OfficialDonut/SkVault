@@ -52,64 +52,50 @@ public class CustomEconomy extends AbstractEconomy {
     public boolean isEnabled() {
         EnabledRequestEvent event = new EnabledRequestEvent();
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if (!automaticLinking || event.isImplemented())
-            return event.getBooleanValue();
-        return true;
+        return (automaticLinking && !event.isImplemented()) || event.getBooleanValue();
     }
 
     @Override
     public String getName() {
         EconomyNameRequestEvent event = new EconomyNameRequestEvent();
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if (!automaticLinking || event.isImplemented())
-            return event.getStringValue();
-        return economyName;
+        return (!automaticLinking || event.isImplemented()) ? event.getStringValue() : economyName;
     }
 
     @Override
     public int fractionalDigits() {
         CurrencyDecimalsRequestEvent event = new CurrencyDecimalsRequestEvent();
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if (!automaticLinking || event.isImplemented())
-            return event.getIntValue();
-        return currencyDecimals;
+        return (!automaticLinking || event.isImplemented()) ? event.getIntValue() : currencyDecimals;
     }
 
     @Override
     public String format(double amount) {
-        FormatCurrencyRequest event = new FormatCurrencyRequest(amount);
+        FormatCurrencyRequestEvent event = new FormatCurrencyRequestEvent(amount);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if (!automaticLinking || event.isImplemented())
-            return event.getStringValue();
-        return currencyFormat.replace("%number%", String.valueOf(amount));
+        return (!automaticLinking || event.isImplemented()) ? event.getStringValue() : currencyFormat.replace("%number%", String.valueOf(amount));
     }
 
     @Override
     public String currencyNameSingular() {
-        SingularCurrencyNameRequest event = new SingularCurrencyNameRequest();
+        SingularCurrencyNameRequestEvent event = new SingularCurrencyNameRequestEvent();
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if (!automaticLinking || event.isImplemented())
-            return event.getStringValue();
-        return singularCurrencyName;
+        return (!automaticLinking || event.isImplemented()) ? event.getStringValue() : singularCurrencyName;
     }
 
     @Override
     public String currencyNamePlural() {
-        PluralCurrencyNameRequest event = new PluralCurrencyNameRequest();
+        PluralCurrencyNameRequestEvent event = new PluralCurrencyNameRequestEvent();
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if (!automaticLinking || event.isImplemented())
-            return event.getStringValue();
-        return pluralCurrencyName;
+        return (!automaticLinking || event.isImplemented()) ? event.getStringValue() : pluralCurrencyName;
     }
 
-    //Vault player balance methods
+    //Vault player methods
     @Override
     public double getBalance(OfflinePlayer player) {
         BalanceRequestEvent event = new BalanceRequestEvent(player);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if (!automaticLinking || event.isImplemented())
-            return event.getDoubleValue();
-        return getDoubleValue(getLinkVariableValue(player));
+        return (!automaticLinking || event.isImplemented()) ? event.getDoubleValue() : getDoubleValue(getLinkVariableValue(player));
     }
 
     @Override
@@ -136,14 +122,26 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
-        CheckBalanceRequestEvent event = new CheckBalanceRequestEvent(player);
+        CheckBalanceRequestEvent event = new CheckBalanceRequestEvent(player, amount);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        if (!automaticLinking || event.isImplemented())
-            return event.getBooleanValue();
-        return getDoubleValue(getLinkVariableValue(player)) > amount;
+        return (!automaticLinking || event.isImplemented()) ? event.getBooleanValue() : getDoubleValue(getLinkVariableValue(player)) > amount;
     }
 
-    //Vault player balance methods that point to other methods
+    @Override
+    public boolean hasAccount(OfflinePlayer player) {
+        HasAccountRequestEvent event = new HasAccountRequestEvent(player);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        return (automaticLinking && !event.isImplemented()) || event.getBooleanValue();
+    }
+
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player) {
+        CreateAccountRequestEvent event = new CreateAccountRequestEvent(player);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        return (automaticLinking && !event.isImplemented()) || event.getBooleanValue();
+    }
+
+    //Pointing Vault methods to other methods above
     @Override
     public double getBalance(OfflinePlayer player, String world) {
         return getBalance(player);
@@ -196,7 +194,7 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public boolean has(String playerName, double amount) {
-        return has(Bukkit.getOfflinePlayer(playerName), 1);
+        return has(Bukkit.getOfflinePlayer(playerName), amount);
     }
 
     @Override
@@ -204,7 +202,37 @@ public class CustomEconomy extends AbstractEconomy {
         return has(playerName, amount);
     }
 
-    //Vault methods skript economies probably won't need. If someone wants them I'll add them later
+    @Override
+    public boolean hasAccount(OfflinePlayer player, String worldName) {
+        return hasAccount(player);
+    }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return hasAccount(Bukkit.getOfflinePlayer(playerName));
+    }
+
+    @Override
+    public boolean hasAccount(String playerName, String worldName) {
+        return hasAccount(playerName);
+    }
+
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
+        return createPlayerAccount(player);
+    }
+
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        return createPlayerAccount(Bukkit.getOfflinePlayer(playerName));
+    }
+
+    @Override
+    public boolean createPlayerAccount(String playerName, String worldName) {
+        return createPlayerAccount(playerName);
+    }
+
+    //Vault bank methods. If someone wants them I'll add them later
     @Override
     public EconomyResponse createBank(String name, OfflinePlayer player) {
         return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Method not implemented");
@@ -267,46 +295,6 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public boolean hasBankSupport() {
-        throw new UnsupportedOperationException("BankSupportRequest");
-    }
-
-    @Override
-    public boolean createPlayerAccount(OfflinePlayer player) {
-        throw new UnsupportedOperationException("CreateAccountRequest");
-    }
-
-    @Override
-    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
-        throw new UnsupportedOperationException("CreateAccountRequest");
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-        throw new UnsupportedOperationException("CreateAccountRequest");
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        throw new UnsupportedOperationException("CreateAccountRequest");
-    }
-
-    @Override
-    public boolean hasAccount(OfflinePlayer player) {
-        throw new UnsupportedOperationException("HasAccountRequest");
-    }
-
-    @Override
-    public boolean hasAccount(OfflinePlayer player, String worldName) {
-        throw new UnsupportedOperationException("HasAccountRequest");
-    }
-
-    @Override
-    public boolean hasAccount(String playerName) {
-        throw new UnsupportedOperationException("HasAccountRequest");
-    }
-
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        throw new UnsupportedOperationException("HasAccountRequest");
+        return false;
     }
 }

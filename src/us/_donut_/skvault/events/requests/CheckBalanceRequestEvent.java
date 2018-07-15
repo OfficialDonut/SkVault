@@ -22,15 +22,26 @@ public class CheckBalanceRequestEvent extends BooleanRequestEvent {
                 return e.getRequestedPlayer();
             }
         }, 0);
+        EventValues.registerEventValue(CheckBalanceRequestEvent.class, Number.class, new Getter<Number, CheckBalanceRequestEvent>() {
+            public Number get(CheckBalanceRequestEvent e) {
+                return e.getRequestedWithdrawAmount();
+            }
+        }, 0);
     }
 
     private OfflinePlayer requestedPlayer;
+    private double requestedWithdrawAmount;
 
-    public CheckBalanceRequestEvent(OfflinePlayer requestedPlayer) {
+    public CheckBalanceRequestEvent(OfflinePlayer requestedPlayer, double amount) {
         this.requestedPlayer = requestedPlayer;
+        this.requestedWithdrawAmount = amount;
     }
 
     public OfflinePlayer getRequestedPlayer() {
         return requestedPlayer;
+    }
+
+    public double getRequestedWithdrawAmount() {
+        return requestedWithdrawAmount;
     }
 }
