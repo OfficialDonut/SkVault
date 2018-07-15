@@ -34,7 +34,7 @@ public class EffReturnEcoResponse extends Effect {
     @Override
     public boolean init(Expression<?>[] e, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         for (Class<? extends Event> event : ScriptLoader.getCurrentEvents()) {
-            if (ScriptLoader.isCurrentEvent(event) && event.getSuperclass().equals(EcoResponseRequestEvent.class)) {
+            if (event.getSuperclass().equals(EcoResponseRequestEvent.class)) {
                 amountModified = (Expression<Number>) e[0];
                 newBalance = (Expression<Number>) e[1];
                 errorMessage = (Expression<String>) e[2];

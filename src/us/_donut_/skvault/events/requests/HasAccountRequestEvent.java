@@ -15,7 +15,7 @@ public class HasAccountRequestEvent extends BooleanRequestEvent {
                 .description("Called when Vault requests to know if a player has an economy account")
                 .requiredPlugins("Vault")
                 .since("1.1.5")
-                .examples("on vault player has account request:\n    if {balances::%player%} is set:\n        return true\n    else:\n        return false");
+                .examples("on vault player has account request:\n    if {balances::%event-offlineplayer%} is set:\n        return true\n    else:\n        return false");
 
         EventValues.registerEventValue(HasAccountRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, HasAccountRequestEvent>() {
             public OfflinePlayer get(HasAccountRequestEvent e) {

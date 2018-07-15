@@ -15,7 +15,7 @@ public class CheckBalanceRequestEvent extends BooleanRequestEvent {
                 .description("Called when Vault requests to know if a player's balance is greater than a certain amount")
                 .requiredPlugins("Vault")
                 .since("1.0")
-                .examples("on vault check player balance request:\n    if {balances::%player%} is greater than event-number:\n        return true\n    else:\n        return false");
+                .examples("on vault check player balance request:\n    if {balances::%event-offlineplayer%} is greater than event-number:\n        return true\n    else:\n        return false");
 
         EventValues.registerEventValue(CheckBalanceRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, CheckBalanceRequestEvent>() {
             public OfflinePlayer get(CheckBalanceRequestEvent e) {

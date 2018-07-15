@@ -15,7 +15,7 @@ public class BalanceRequestEvent extends DoubleRequestEvent {
                 .description("Called when Vault requests a player's balance")
                 .requiredPlugins("Vault")
                 .since("1.0")
-                .examples("on vault player balance request:\n    return {balances::%player%}");
+                .examples("on vault player balance request:\n    return {balances::%event-offlineplayer%}");
 
         EventValues.registerEventValue(BalanceRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, BalanceRequestEvent>() {
             public OfflinePlayer get(BalanceRequestEvent e) {

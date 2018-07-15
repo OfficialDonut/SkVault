@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import us._donut_.skvault.events.requests.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomEconomy extends AbstractEconomy {
@@ -290,7 +291,7 @@ public class CustomEconomy extends AbstractEconomy {
 
     @Override
     public List<String> getBanks() {
-        throw new UnsupportedOperationException("BanksRequest");
+        return new ArrayList<>();
     }
 
     @Override

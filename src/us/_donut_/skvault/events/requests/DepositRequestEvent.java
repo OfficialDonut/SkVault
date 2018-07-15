@@ -15,7 +15,7 @@ public class DepositRequestEvent extends EcoResponseRequestEvent {
                 .description("Called when Vault requests to deposit into a player's balance")
                 .requiredPlugins("Vault")
                 .since("1.0")
-                .examples("on vault deposit request:\n    add event-number to {balances::%player%}\n    return economy response with amount modified event-number, new balance {balances::%player%}, response type success, and error message \"none\"");
+                .examples("on vault deposit request:\n    add event-number to {balances::%event-offlineplayer%}\n    return economy response with amount modified event-number, new balance {balances::%event-offlineplayer%}, response type success, and error message \"none\"");
 
         EventValues.registerEventValue(DepositRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, DepositRequestEvent>() {
             public OfflinePlayer get(DepositRequestEvent e) {

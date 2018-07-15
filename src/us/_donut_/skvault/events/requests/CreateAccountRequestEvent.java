@@ -15,7 +15,7 @@ public class CreateAccountRequestEvent extends BooleanRequestEvent {
                 .description("Called when Vault requests to create a player economy account")
                 .requiredPlugins("Vault")
                 .since("1.1.5")
-                .examples("on vault create player account request:\n    set {balances::%player%} to 0\n    return true");
+                .examples("on vault create player account request:\n    set {balances::%event-offlineplayer%} to 0\n    return true");
 
         EventValues.registerEventValue(CreateAccountRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, CreateAccountRequestEvent>() {
             public OfflinePlayer get(CreateAccountRequestEvent e) {
