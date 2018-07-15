@@ -22,7 +22,6 @@ public class LiteralUtils {
         return (Expression<T>) expr;
     }
 
-
     private static boolean hasUnparsedLiteral(Expression<?> expr) {
         if (expr instanceof UnparsedLiteral) {
             return true;
@@ -41,5 +40,4 @@ public class LiteralUtils {
         }
         return true;
     }
-
 }
