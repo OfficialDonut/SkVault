@@ -12,7 +12,6 @@ public class Util {
             skriptEventInfo.requiredPlugins("Vault");
     }
 
-
     //Skript literal utils
     @SuppressWarnings("unchecked")
     public static <T> Expression<T> defendExpression(Expression<?> expr) {
