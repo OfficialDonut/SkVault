@@ -1,18 +1,21 @@
 package us._donut_.skvault.events.requests;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.lang.SkriptEventInfo;
+import us._donut_.skvault.Util;
 import us._donut_.skvault.events.SkVaultEvent;
 import us._donut_.skvault.events.StringRequestEvent;
 
 public class PluralCurrencyNameRequestEvent extends StringRequestEvent {
 
     static {
-        Skript.registerEvent("Vault Request - Plural Currency Name (Return: string)", SkVaultEvent.class, PluralCurrencyNameRequestEvent.class,
+        SkriptEventInfo skriptEventInfo = Skript.registerEvent("Vault Request - Plural Currency Name (Return: string)", SkVaultEvent.class, PluralCurrencyNameRequestEvent.class,
                 "[vault] plural [currency] name request")
                 .description("Called when Vault requests the plural currency name")
-                .requiredPlugins("Vault")
                 .since("1.0.5")
                 .examples("on vault plural currency name request:\n    return \"dollars\"");
+
+        Util.setRequiredPlugins(skriptEventInfo);
     }
 
     private boolean gaveSkriptValue = false;

@@ -11,7 +11,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
-import us._donut_.skvault.LiteralUtils;
+import us._donut_.skvault.Util;
 import us._donut_.skvault.events.ValueRequestEvent;
 
 import javax.annotation.Nullable;
@@ -32,8 +32,8 @@ public class EffReturnValue extends Effect {
     public boolean init(Expression<?>[] e, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         for (Class<? extends Event> event : ScriptLoader.getCurrentEvents()) {
             if (event.getSuperclass().getSuperclass().equals(ValueRequestEvent.class)) {
-                value = LiteralUtils.defendExpression(e[0]);
-                return LiteralUtils.canInitSafely(value);
+                value = Util.defendExpression(e[0]);
+                return Util.canInitSafely(value);
             }
         }
         Skript.error("You can only use the return value effect in a Vault value request event");

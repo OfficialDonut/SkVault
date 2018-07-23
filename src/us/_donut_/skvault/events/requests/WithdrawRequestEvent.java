@@ -1,21 +1,24 @@
 package us._donut_.skvault.events.requests;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.lang.SkriptEventInfo;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import org.bukkit.OfflinePlayer;
+import us._donut_.skvault.Util;
 import us._donut_.skvault.events.EcoResponseRequestEvent;
 import us._donut_.skvault.events.SkVaultEvent;
 
 public class WithdrawRequestEvent extends EcoResponseRequestEvent {
 
     static {
-        Skript.registerEvent("Vault Request - Balance Withdraw (Return: economy response)", SkVaultEvent.class, WithdrawRequestEvent.class,
+        SkriptEventInfo skriptEventInfo = Skript.registerEvent("Vault Request - Balance Withdraw (Return: economy response)", SkVaultEvent.class, WithdrawRequestEvent.class,
                 "[vault] [player] [bal[ance]] withdraw request")
                 .description("Called when Vault requests to withdraw from a player's balance")
-                .requiredPlugins("Vault")
                 .since("1.0")
                 .examples("on vault withdraw request:\n    remove event-number from {balances::%event-offlineplayer%}\n    return economy response with amount modified event-number, new balance {balances::%event-offlineplayer%}, response type success, and error message \"none\"");
+
+        Util.setRequiredPlugins(skriptEventInfo);
 
         EventValues.registerEventValue(WithdrawRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, WithdrawRequestEvent>() {
             public OfflinePlayer get(WithdrawRequestEvent e) {

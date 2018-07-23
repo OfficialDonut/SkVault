@@ -1,20 +1,24 @@
 package us._donut_.skvault.events.requests;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.lang.SkriptEventInfo;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
+import us._donut_.skvault.Util;
 import us._donut_.skvault.events.SkVaultEvent;
 import us._donut_.skvault.events.StringRequestEvent;
 
 public class FormatCurrencyRequestEvent extends StringRequestEvent {
 
     static {
-        Skript.registerEvent("Vault Request - Format Number As Currency (Return: string)", SkVaultEvent.class, FormatCurrencyRequestEvent.class,
+        SkriptEventInfo skriptEventInfo = Skript.registerEvent("Vault Request - Format Number As Currency (Return: string)", SkVaultEvent.class, FormatCurrencyRequestEvent.class,
                 "[vault] format [[number as] currency] request")
                 .description("Called when Vault requests a number to be formatted as currency")
-                .requiredPlugins("Vault")
                 .since("1.0.5")
                 .examples("on vault format currency request:\n    return \"$%event-number%\"");
+
+        Util.setRequiredPlugins(skriptEventInfo);
+
         EventValues.registerEventValue(FormatCurrencyRequestEvent.class, Number.class, new Getter<Number, FormatCurrencyRequestEvent>() {
             public Number get(FormatCurrencyRequestEvent e) {
                 return e.getRequestedNumber();
