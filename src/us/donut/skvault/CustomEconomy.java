@@ -33,25 +33,23 @@ public class CustomEconomy extends AbstractEconomy {
 
     public CustomEconomy() {
         File scriptsDir = new File(Skript.getInstance().getDataFolder(), "scripts");
-        File[] scripts = scriptsDir.listFiles();
-        if (scripts != null) {
-            Set<EconomyProperty<?>> unsetProperties = Sets.newHashSet(economyName, currencyName, currencyNamePlural, currencyFormat, decimalPlaces, autoLinkVar);
-            for (File script : scripts) {
-                if (!script.getName().startsWith("-")) {
+        Set<EconomyProperty<?>> unsetProperties = Sets.newHashSet(economyName, currencyName, currencyNamePlural, currencyFormat, decimalPlaces, autoLinkVar);
+        try {
+            Files.walk(scriptsDir.toPath()).forEach(path -> {
+                if (Files.isRegularFile(path) && path.toString().endsWith(".sk") && !path.toString().startsWith("-")) {
                     try {
-                        for (String line : Files.readAllLines(script.toPath(), StandardCharsets.UTF_8)) {
+                        for (String line : Files.readAllLines(path, StandardCharsets.UTF_8)) {
                             unsetProperties.removeIf(property -> property.parse(line));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-                if (unsetProperties.isEmpty()) {
-                    break;
-                }
-            }
-            isAutoLink = !unsetProperties.contains(autoLinkVar);
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        isAutoLink = !unsetProperties.contains(autoLinkVar);
     }
 
     private double getLinkVarValue(Event e) {
