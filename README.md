@@ -304,7 +304,7 @@ return %object% [to [the] [vault] request]
 
 ## Expressions
  
-### ExprEconomyResponse
+### Economy Response
 No description available yet.
  
 **No examples available yet.**
