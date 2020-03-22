@@ -13,7 +13,7 @@ public class CreateAccountRequestEvent extends us.donut.skvault.events.VaultRequ
                 .description("Called when Vault requests a player economy account to be created")
                 .requiredPlugins("Vault")
                 .since("2.0")
-                .examples("on vault create player account request:\n    set {balances::%event-offlineplayer%} to 0\n    return true");
+                .examples("on vault create player account request:\n    set {balances::%event-offlineplayer's uuid%} to 0\n    return true");
 
         EventValues.registerEventValue(CreateAccountRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, CreateAccountRequestEvent>() {
             public OfflinePlayer get(CreateAccountRequestEvent e) {

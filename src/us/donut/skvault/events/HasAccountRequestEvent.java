@@ -13,7 +13,7 @@ public class HasAccountRequestEvent extends us.donut.skvault.events.VaultRequest
                 .description("Called when Vault requests to know if a player has an economy account")
                 .requiredPlugins("Vault")
                 .since("2.0")
-                .examples("on vault player has account request:\n    if {balances::%event-offlineplayer%} is set:\n        return true\n    else:\n        return false");
+                .examples("on vault player has account request:\n    if {balances::%event-offlineplayer's uuid%} is set:\n        return true\n    else:\n        return false");
 
         EventValues.registerEventValue(HasAccountRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, HasAccountRequestEvent>() {
             public OfflinePlayer get(HasAccountRequestEvent e) {

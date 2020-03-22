@@ -14,7 +14,7 @@ public class WithdrawRequestEvent extends VaultRequestEvent<EconomyResponse> {
                 .description("Called when Vault requests to withdraw currency from a player's balance")
                 .requiredPlugins("Vault")
                 .since("2.0")
-                .examples("on vault withdraw request:\n    remove event-number from {balances::%event-offlineplayer%}\n    return economy response with amount modified event-number, new balance {balances::%event-offlineplayer%}, response type success, and error message \"none\"");
+                .examples("on vault withdraw request:\n    remove event-number from {balances::%event-offlineplayer's uuid%}\n    return economy response with amount modified event-number, new balance {balances::%event-offlineplayer's uuid%}, response type success, and error message \"none\"");
 
         EventValues.registerEventValue(WithdrawRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, WithdrawRequestEvent>() {
             public OfflinePlayer get(WithdrawRequestEvent e) {

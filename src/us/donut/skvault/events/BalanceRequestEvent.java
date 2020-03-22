@@ -13,7 +13,7 @@ public class BalanceRequestEvent extends us.donut.skvault.events.VaultRequestEve
                 .description("Called when Vault requests a player's balance")
                 .requiredPlugins("Vault")
                 .since("2.0")
-                .examples("on vault player balance request:\n    return {balances::%event-offlineplayer%}");
+                .examples("on vault player balance request:\n    return {balances::%event-offlineplayer's uuid%}");
 
         EventValues.registerEventValue(BalanceRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, BalanceRequestEvent>() {
             public OfflinePlayer get(BalanceRequestEvent e) {

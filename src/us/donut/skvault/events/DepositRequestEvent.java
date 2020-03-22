@@ -13,7 +13,7 @@ public class DepositRequestEvent extends VaultRequestEvent<EconomyResponse> {
                 "[vault] [player] [bal[ance]] deposit request")
                 .description("Called when Vault requests to deposit currency into a player's balance")
                 .since("2.0")
-                .examples("on vault deposit request:\n    add event-number to {balances::%event-offlineplayer%}\n    return economy response with amount modified event-number, new balance {balances::%event-offlineplayer%}, response type success, and error message \"none\"");
+                .examples("on vault deposit request:\n    add event-number to {balances::%event-offlineplayer's uuid%}\n    return economy response with amount modified event-number, new balance {balances::%event-offlineplayer's uuid%}, response type success, and error message \"none\"");
 
         EventValues.registerEventValue(DepositRequestEvent.class, OfflinePlayer.class, new Getter<OfflinePlayer, DepositRequestEvent>() {
             public OfflinePlayer get(DepositRequestEvent e) {
