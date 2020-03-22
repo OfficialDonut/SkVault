@@ -7,6 +7,9 @@ SkVault allows Vault to hook into your economy script so other plugins (includin
 - [Vault Request Events](#vault-request-events)
 - [UnsupportedOperationException](#unsupportedoperationexception)
 - [Syntax](#syntax)
+  - [Events](#events)
+  - [Effects](#effects)
+  - [Expressions](#expressions)
 
 ## Economy Properties
 Economy properties define information about your custom economy:
@@ -66,7 +69,6 @@ Example:
 [21:01:41 ERROR]: #!#!     at us.donut.skvault.CustomEconomy.getBalance(CustomEconomy.java:127)
 [21:01:41 ERROR]: #!#!     at us.donut.skvault.CustomEconomy.getBalance(CustomEconomy.java:200)
 [21:01:41 ERROR]: #!#!     at ch.njol.skript.hooks.economy.expressions.ExprBalance.convert(ExprBalance.java:57)
-...
 ...
 ```
 In this case, Vault tried to get the balance of a player but automatic linking was not enabled and the balance request event was not implemented so an `UnsupportedOperationException` was thrown.
