@@ -21,7 +21,7 @@ Economy properties define information about your custom economy:
 #decimal-places: 2
 #auto-link-var: {balances::%player's uuid%}
 ```
-They are defined in comments because some plugins (including Skript) request these values before scripts load. The properties can be in any order, anywhere in your script. You do not have to define all of the economy properties, but if Vault requests a property that you have not defined then an [UnsupportedOperationException](#unsupportedoperationexception) will be thrown.
+They are defined in comments because some plugins (including Skript) request these values before scripts load. For this reason, you must restart your server to update economy properties, reloading the script will not update them. The properties can be in any order, anywhere in your script. You do not have to define all of the economy properties, but if Vault requests a property that you have not defined then an [UnsupportedOperationException](#unsupportedoperationexception) will be thrown.
 
 ## Automatic Linking
 Enabling automatic linking will make SkVault automatically handle economy requests from Vault. To enable automatic linking set the `auto-link-var` economy property to the variable that you want to hold the player balances.
